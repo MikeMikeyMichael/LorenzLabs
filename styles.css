@@ -1,0 +1,70 @@
+:root{
+  --bg: #000000;
+  --fg: #ffffff;
+}
+
+*{ box-sizing: border-box; }
+html, body{ height: 100%; }
+body{
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.stage{
+  position: relative;
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+/* Subtle vignette */
+.stage::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(1100px 540px at 60% 38%, rgba(255,255,255,0.08), transparent 60%);
+  pointer-events: none;
+}
+
+.logo{
+  text-decoration: none;
+  display: inline-block;
+  padding: clamp(10px, 1.2vw, 14px);
+  border-radius: 14px;
+  line-height: 0;
+  transition: transform 220ms ease, opacity 220ms ease, filter 220ms ease;
+  animation: dropIn 680ms ease both;
+}
+
+.logo img{
+  display: block;
+  width: clamp(260px, 36vw, 520px);
+  height: auto;
+  filter: drop-shadow(0 12px 34px rgba(0,0,0,0.55));
+}
+
+.logo:hover{ transform: translateY(-1px); filter: brightness(1.04); }
+.logo:active{ transform: translateY(0); opacity: 0.98; }
+
+/* Hide and return animations */
+.leaving{ animation: floatFadeOut 500ms ease forwards; }
+.hidden{ visibility: hidden; opacity: 0; pointer-events: none; }
+.returning{ visibility: visible; animation: softFadeIn 700ms ease forwards; }
+
+@keyframes dropIn{
+  from{ opacity: 0; transform: translateY(-8px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+@keyframes floatFadeOut{
+  0%{ opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
+  100%{ opacity: 0; filter: blur(2px); transform: translateY(-8px) scale(0.98); }
+}
+@keyframes softFadeIn{
+  0%{ opacity: 0; filter: blur(3px); transform: translateY(8px) scale(0.985); }
+  100%{ opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
+}
