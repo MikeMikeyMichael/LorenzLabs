@@ -1,0 +1,133 @@
+/* Lorenz Labs single page with animated timeline */
+:root{
+  --bg: #000000;
+  --fg: #ffffff;
+  --muted: #bdbdbd;
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  height: 100%;
+}
+
+body{
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.stage{
+  position: relative;
+  min-height: 100%;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 36px;
+  overflow: hidden;
+  padding: 24px;
+}
+
+#center{
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  position: relative;
+}
+
+/* Logo centered, fade in at start */
+#logo{
+  width: clamp(160px, 40vw, 280px);
+  height: auto;
+  opacity: 0;
+  animation: logoFadeIn 1200ms ease forwards 600ms;
+  filter: drop-shadow(0 6px 24px rgba(0,0,0,0.35));
+  cursor: pointer;
+}
+
+/* Timeline styles */
+#timeline{
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  gap: clamp(24px, 6vw, 72px);
+  align-items: center;
+  opacity: 0;
+  animation: tlIntro 600ms ease forwards 1000ms;
+}
+
+.year{
+  display: inline-block;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  font-size: clamp(18px, 3.2vw, 34px);
+  color: var(--muted);
+  opacity: 0.6;
+  transform: translateX(0);
+}
+
+/* Final years below logo */
+#finalYears{
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  font-size: clamp(18px, 2.6vw, 28px);
+  color: var(--fg);
+}
+
+.hidden{ visibility: hidden; opacity: 0; }
+
+/* Thank you message */
+#message{
+  text-align: center;
+  line-height: 1.6;
+  font-size: clamp(16px, 2.2vw, 22px);
+}
+
+#message a{ color: #d6d6d6; }
+
+/* Animations */
+@keyframes logoFadeIn{
+  from{ opacity: 0; transform: translateY(10px) scale(0.98); }
+  to  { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes tlIntro{
+  from{ opacity: 0; transform: translateY(8px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+/* Slide helpers for years */
+.slideLeftOut{ animation: slideLeftOut 900ms ease forwards; }
+@keyframes slideLeftOut{
+  to{ transform: translateX(-120vw); opacity: 0; }
+}
+
+.slideInFromRight{ animation: slideInFromRight 900ms cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes slideInFromRight{
+  from{ transform: translateX(120vw); opacity: 0; }
+  to{ transform: translateX(0); opacity: 1; }
+}
+
+.fadeOut{ animation: fadeOut 700ms ease forwards; }
+@keyframes fadeOut{
+  to{ opacity: 0; visibility: hidden; }
+}
+
+.fadeIn{ animation: fadeIn 800ms ease forwards; }
+@keyframes fadeIn{
+  from{ opacity: 0; }
+  to{ opacity: 1; }
+}
+
+/* Water drop reverse vanish using shrinking circle clip */
+.dropOut{
+  animation: dropOut 800ms ease forwards;
+}
+@keyframes dropOut{
+  0%{ clip-path: circle(75% at 50% 50%); opacity: 1; transform: scale(1); }
+  40%{ clip-path: circle(40% at 50% 55%); transform: scale(1.02); }
+  100%{ clip-path: circle(0% at 50% 60%); opacity: 0; transform: scale(0.98); }
+}
